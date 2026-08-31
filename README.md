@@ -15,7 +15,7 @@ Raycast script commands to prevent your Mac from sleeping — including lid clos
 ### 1. Clone and add to Raycast
 
 ```bash
-git clone <repo-url> && cd doze
+git clone https://github.com/thepbordin/doze.git && cd doze
 chmod +x doze-start.sh doze-stop.sh doze-status.sh
 chmod 555 helpers/doze-on.sh helpers/doze-off.sh
 ```
@@ -30,14 +30,14 @@ The helper scripts require root to run `pmset`. Grant passwordless sudo to avoid
 sudo visudo -f /etc/sudoers.d/doze
 ```
 
-Add these lines, replacing `<YOUR_USERNAME>` with your macOS username (`whoami`) and `<PATH_TO_DOZE>` with the absolute path to this folder:
+Add these lines (copy-paste friendly — `$USER` and `$(pwd)` resolve automatically):
 
-```
-<YOUR_USERNAME> ALL=(ALL) NOPASSWD: <PATH_TO_DOZE>/helpers/doze-on.sh
-<YOUR_USERNAME> ALL=(ALL) NOPASSWD: <PATH_TO_DOZE>/helpers/doze-off.sh
+```bash
+echo "$USER ALL=(ALL) NOPASSWD: $(pwd)/helpers/doze-on.sh" | sudo tee -a /etc/sudoers.d/doze
+echo "$USER ALL=(ALL) NOPASSWD: $(pwd)/helpers/doze-off.sh" | sudo tee -a /etc/sudoers.d/doze
 ```
 
-Save and exit (`:wq` in vi, or `ctrl+X` in nano via `sudo EDITOR=nano visudo -f /etc/sudoers.d/doze`).
+Or manually via `sudo visudo -f /etc/sudoers.d/doze` (`:wq` to save in vi, `ctrl+X` in nano via `sudo EDITOR=nano visudo -f /etc/sudoers.d/doze`).
 
 ## How it works
 

@@ -20,7 +20,11 @@ pmset -a disablesleep 1
   sleep "$SECONDS_TO_SLEEP"
   pmset -a disablesleep 0
   rm -f /tmp/doze.pid /tmp/doze.end
+  LID_CLOSED=$(ioreg -r -k AppleClamshellState -d 4 | grep AppleClamshellState | head -1)
+  if echo "$LID_CLOSED" | grep -q "Yes"; then
+    pmset sleepnow
+  fi
 ) &
 
 echo $! > /tmp/doze.pid
-chmod 666 /tmp/doze.pid
+chmod 644 /tmp/doze.pid
