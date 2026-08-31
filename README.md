@@ -17,12 +17,27 @@ Raycast script commands to prevent your Mac from sleeping — including lid clos
 ```bash
 git clone https://github.com/thepbordin/doze.git && cd doze
 chmod +x doze-start.sh doze-stop.sh doze-status.sh
-chmod 555 helpers/doze-on.sh helpers/doze-off.sh
 ```
 
 In Raycast: **Settings > Extensions > Script Commands > Add Directory** > select the `doze/` folder.
 
-### 2. Configure passwordless sudo (one-time)
+### 2. Lock helper scripts (MANDATORY)
+
+> **This step is required.** The helper scripts run as root via sudo. Without this, any user-level process could modify them and escalate to root. Git does not preserve ownership or permissions on clone.
+
+```bash
+sudo chown root:wheel helpers/doze-on.sh helpers/doze-off.sh
+sudo chmod 555 helpers/doze-on.sh helpers/doze-off.sh
+```
+
+Verify:
+
+```bash
+ls -l helpers/
+# Expected: -r-xr-xr-x  root  wheel  for both files
+```
+
+### 3. Configure passwordless sudo (one-time)
 
 The helper scripts require root to run `pmset`. Grant passwordless sudo to avoid prompts:
 
@@ -54,7 +69,7 @@ doze/
 - **Start** runs `pmset -a disablesleep 1` and spawns a background process that waits the duration then re-enables sleep automatically.
 - PID tracked in `/tmp/doze.pid`, end timestamp in `/tmp/doze.end`.
 - **Stop** kills the background timer and runs `pmset -a disablesleep 0`.
-- Helper scripts should be locked read-only (`chmod 555`) since they run as root via sudoers.
+- Helper scripts must be owned by `root:wheel` and locked read-only (`chmod 555`) to prevent privilege escalation.
 
 ## Verify
 
