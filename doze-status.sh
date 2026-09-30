@@ -2,7 +2,7 @@
 
 # Required parameters:
 # @raycast.schemaVersion 1
-# @raycast.title Status
+# @raycast.title Doze > Status
 # @raycast.mode compact
 
 # Optional parameters:

@@ -7,6 +7,7 @@ Raycast script commands to prevent your Mac from sleeping — including lid clos
 | Command | Description |
 |---------|-------------|
 | **Doze > Start** | Set hours and minutes to prevent sleep. Automatically re-enables when time is up. |
+| **Doze > Quick Start** | One-click 5 minute doze, no input needed. Change `MINUTES` in `doze-quick.sh` to adjust. |
 | **Doze > Stop** | Cancel active doze early and re-enable sleep. |
 | **Doze > Status** | Check remaining doze time. |
 
@@ -16,7 +17,7 @@ Raycast script commands to prevent your Mac from sleeping — including lid clos
 
 ```bash
 git clone https://github.com/thepbordin/doze.git && cd doze
-chmod +x doze-start.sh doze-stop.sh doze-status.sh
+chmod +x doze-start.sh doze-quick.sh doze-stop.sh doze-status.sh
 ```
 
 In Raycast: **Settings > Extensions > Script Commands > Add Directory** > select the `doze/` folder.
@@ -40,11 +41,6 @@ ls -l helpers/
 ### 3. Configure passwordless sudo (one-time)
 
 The helper scripts require root to run `pmset`. Grant passwordless sudo to avoid prompts:
-
-```bash
-sudo visudo -f /etc/sudoers.d/doze
-```
-
 Add these lines (copy-paste friendly — `$USER` and `$(pwd)` resolve automatically):
 
 ```bash
@@ -59,6 +55,7 @@ Or manually via `sudo visudo -f /etc/sudoers.d/doze` (`:wq` to save in vi, `ctrl
 ```
 doze/
 ├── doze-start.sh       # Raycast entry: validates input, calls helper via sudo
+├── doze-quick.sh       # Raycast entry: fixed 5 minute doze, calls helper via sudo
 ├── doze-stop.sh        # Raycast entry: cancels timer, calls helper via sudo
 ├── doze-status.sh      # Raycast entry: reads /tmp/doze.end for remaining time
 └── helpers/

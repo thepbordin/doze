@@ -2,11 +2,11 @@
 
 # Required parameters:
 # @raycast.schemaVersion 1
-# @raycast.title Start
+# @raycast.title Doze > Start
 # @raycast.mode silent
 
 # Optional parameters:
-# @raycast.icon 🔒
+# @raycast.icon ⚡
 # @raycast.packageName Doze
 # @raycast.argument1 { "type": "text", "placeholder": "Hours (0)", "optional": true }
 # @raycast.argument2 { "type": "text", "placeholder": "Minutes (0)", "optional": true }

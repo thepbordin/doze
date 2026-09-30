@@ -2,7 +2,7 @@
 
 # Required parameters:
 # @raycast.schemaVersion 1
-# @raycast.title Stop
+# @raycast.title Doze > Stop
 # @raycast.mode silent
 
 # Optional parameters:
