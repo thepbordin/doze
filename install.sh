@@ -220,7 +220,15 @@ if [ -s "$STALE_REPORT" ]; then
   prune_stale
 fi
 
-printf '\n%s%s✓ All set.%s\n' "$GREEN" "$BOLD" "$RESET"
-info "Next: in Raycast, run Doze > Toggle (or Start / Quick Start)."
+REPO_DIR="$(dirname "$SRC_DIR")"
+
+printf '\n%s%s✓ Helpers installed.%s\n' "$GREEN" "$BOLD" "$RESET"
+
+step "Last step: add Doze to Raycast (one time)"
+printf '  %s1.%s Open Raycast Settings %s(⌘ ,)%s > %sExtensions%s > %sScript Commands%s\n' "$BOLD" "$RESET" "$DIM" "$RESET" "$BOLD" "$RESET" "$BOLD" "$RESET"
+printf '  %s2.%s Click %sAdd Directory%s and choose:\n' "$BOLD" "$RESET" "$BOLD" "$RESET"
+printf '       %s%s%s\n' "$CYAN$BOLD" "$REPO_DIR" "$RESET"
+printf '  %s3.%s Run %sDoze > Toggle%s in Raycast to try it\n' "$BOLD" "$RESET" "$BOLD" "$RESET"
+info "Already added this folder before? Skip to step 3."
 info "Check anytime: pmset -g | grep SleepDisabled"
 printf '\n'
