@@ -14,7 +14,9 @@
 # @raycast.author thepbordin
 # @raycast.authorURL https://raycast.com/thepbordin
 
-if [ ! -f /tmp/doze.pid ] && [ ! -f /tmp/doze.end ]; then
+SLEEP_DISABLED=$(pmset -g | awk '$1 == "SleepDisabled" { print $2 }')
+
+if [ ! -f /tmp/doze.pid ] && [ ! -f /tmp/doze.end ] && [ "$SLEEP_DISABLED" != "1" ]; then
   echo "No active doze"
   exit 0
 fi
@@ -22,13 +24,17 @@ fi
 REMAINING=0
 if [ -f /tmp/doze.end ]; then
   END_TIME=$(cat /tmp/doze.end)
-  NOW=$(date +%s)
-  REMAINING=$(( END_TIME - NOW ))
+  if [[ "$END_TIME" =~ ^[0-9]+$ ]]; then
+    NOW=$(date +%s)
+    REMAINING=$(( END_TIME - NOW ))
+  fi
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/lib/doze-common.sh"
+doze_require_helpers
 
-sudo "$SCRIPT_DIR/helpers/doze-off.sh"
+sudo "$DOZE_HELPER_DIR/doze-off.sh"
 
 if [ $? -ne 0 ]; then
   echo "Failed to stop doze"

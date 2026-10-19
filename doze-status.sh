@@ -20,6 +20,12 @@ if [ ! -f /tmp/doze.end ]; then
 fi
 
 END_TIME=$(cat /tmp/doze.end)
+
+if [ "$END_TIME" = "inf" ]; then
+  echo "Dozing — until toggled off"
+  exit 0
+fi
+
 NOW=$(date +%s)
 REMAINING=$(( END_TIME - NOW ))
 

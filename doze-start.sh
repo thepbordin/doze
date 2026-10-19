@@ -12,12 +12,17 @@
 # @raycast.argument2 { "type": "text", "placeholder": "Minutes (0)", "optional": true }
 
 # Documentation:
-# @raycast.description Prevent sleep (incl. lid close) for a set duration
+# @raycast.description Prevent sleep (incl. lid close) for a set duration (5 minutes if left blank)
 # @raycast.author thepbordin
 # @raycast.authorURL https://raycast.com/thepbordin
 
-HOURS="${1:-0}"
-MINUTES="${2:-0}"
+if [ -z "$1" ] && [ -z "$2" ]; then
+  HOURS=0
+  MINUTES=5
+else
+  HOURS="${1:-0}"
+  MINUTES="${2:-0}"
+fi
 
 if ! [[ "$HOURS" =~ ^[0-9]+$ ]] || ! [[ "$MINUTES" =~ ^[0-9]+$ ]]; then
   echo "Enter valid numbers"
@@ -32,8 +37,10 @@ if [ "$TOTAL_SECONDS" -le 0 ]; then
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/lib/doze-common.sh"
+doze_require_helpers current
 
-sudo "$SCRIPT_DIR/helpers/doze-on.sh" "$TOTAL_SECONDS"
+sudo "$DOZE_HELPER_DIR/doze-on.sh" "$TOTAL_SECONDS"
 
 if [ $? -ne 0 ]; then
   echo "Failed to start doze"

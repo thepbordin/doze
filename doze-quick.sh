@@ -18,8 +18,10 @@ MINUTES=5
 TOTAL_SECONDS=$(( MINUTES * 60 ))
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/lib/doze-common.sh"
+doze_require_helpers current
 
-sudo "$SCRIPT_DIR/helpers/doze-on.sh" "$TOTAL_SECONDS"
+sudo "$DOZE_HELPER_DIR/doze-on.sh" "$TOTAL_SECONDS"
 
 if [ $? -ne 0 ]; then
   echo "Failed to start doze"
