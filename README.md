@@ -2,6 +2,8 @@
 
 Raycast commands that keep your Mac awake, even with the lid closed.
 
+[![Doze demo: close the lid, keep going](assets/doze-demo.gif)](assets/doze-demo.mp4)
+
 | Command | What it does |
 |---------|--------------|
 | **Doze > Toggle** | Flip doze on (no time limit) or off |
